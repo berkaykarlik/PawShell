@@ -2,7 +2,7 @@
 #include <string>
 #include "util.cpp"
 
-const char* PROMPT = "barksh>>";
+const char* PROMPT = "pawsh>>";
 
 
 int main(){

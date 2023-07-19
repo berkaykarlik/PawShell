@@ -1,4 +1,4 @@
-# Bark-Shell / barksh
+# Paw-Shell / pawsh
 
 Dog themed shell.
 
@@ -18,7 +18,7 @@ make
 ## Usage
 
 ```shell
-./barksh
+./pawsh
 ```
 
 ## Clean

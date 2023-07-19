@@ -1,6 +1,6 @@
 # PawShell / pawsh
 
-Dog themed shell.
+Dog themed shell. Because world needs one.
 
 ## Requirements
 for Ubuntu:

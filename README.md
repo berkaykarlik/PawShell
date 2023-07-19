@@ -1,4 +1,4 @@
-# Paw-Shell / pawsh
+# PawShell / pawsh
 
 Dog themed shell.
 

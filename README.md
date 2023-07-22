@@ -2,6 +2,11 @@
 
 Dog themed shell. Because world needs one.
 
+## Capabilities
+
+* executes entered command, prints the output and waits for the next command,
+* until user use `exit` command to close it.
+
 ## Requirements
 for Ubuntu:
 ```shell

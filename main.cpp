@@ -21,7 +21,9 @@ int main(){
             return 0;
         }
         else{
-            std::cout << "Invalid command \"" << cmd << "\"" <<std::endl;
+            //check for existing commands, if no such command print invalid
+            if(runCommand(cmd.c_str()) != 0)
+                std::cout << "Invalid command \"" << cmd << "\"" <<std::endl;
         }
     }
 

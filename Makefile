@@ -1,6 +1,6 @@
 CC = g++
 CFLAGS = -Wall -Wextra -std=c++11
-TARGET = barksh
+TARGET = pawsh
 SRCS = main.cpp
 
 all: $(TARGET)

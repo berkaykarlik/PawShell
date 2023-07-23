@@ -1,7 +1,5 @@
 #include <string>
-#include <iostream>
-#include <cstdio>
-#include <array>
+
 
 std::string stripWhitespace(const std::string& input) {
     // Find the first non-whitespace character
@@ -18,20 +16,4 @@ std::string stripWhitespace(const std::string& input) {
     return input.substr(firstNonWhitespace, lastNonWhitespace - firstNonWhitespace + 1);
 }
 
-int runCommand(const char* cmd) {
-    constexpr int bufferSize = 128;
-    std::array<char, bufferSize> buffer;
 
-    FILE* pipe = popen(cmd, "r");
-     if (!pipe) {
-        std::cerr << "Error opening pipe." << std::endl;
-        return 1;
-    }
-
-    while(!feof(pipe)){
-        if(fgets(buffer.data(), bufferSize, pipe) != nullptr){
-            std::cout << buffer.data() ;
-        }
-    }
-    return pclose(pipe);
-}

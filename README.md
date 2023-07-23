@@ -3,9 +3,9 @@
 Dog themed shell. Because world needs one.
 
 ## Capabilities
-
+* `pwd`,`cd`,`export` and `unset` built-in's now added.
 * executes entered command, prints the output and waits for the next command,
-* until user use `exit` command to close it.
+* user can use `exit` command to quit PawShell.
 
 ## Requirements
 for Ubuntu:

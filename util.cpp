@@ -4,6 +4,8 @@
 #include <vector>
 #include <cstring>
 #include <cstdlib>
+#include <unistd.h>   // For fork(), execvp()
+#include <sys/wait.h> // For waitpid()
 
 std::string stripWhitespace(const std::string& input) {
     // Find the first non-whitespace character
@@ -52,4 +54,21 @@ std::vector<char*> resolveArgs(const std::vector<std::string>& args) {
     resolved_args.push_back(nullptr);
 
     return resolved_args;
+}
+
+void executeCommand(const std::vector<char*>& args){
+    pid_t pid = fork();
+    if (pid == -1) {
+        std::cerr << "Fork failed!" << std::endl;
+        return;
+    } else if (pid == 0) {
+        // Child process
+        execvp(args[0], args.data());
+        std::cerr << "Command not found: " << args[0] << std::endl;
+        exit(EXIT_FAILURE);
+    } else {
+        // Parent process
+        int status;
+        waitpid(pid, &status, 0);
+    }
 }

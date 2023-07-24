@@ -7,10 +7,6 @@
 #include <vector>
 #include <cstdlib>
 #include <cstring>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-
 const char* PROMPT = "pawsh|";
 const char* GREEN =  "\033[1;32m";
 const char* END = "\033[0m";
@@ -74,21 +70,14 @@ int main(){
             unsetenv(resolved_args[1]);
         }
         else{
-            pid_t pid = fork();
-            if (pid == -1) {
-                std::cerr << "Fork failed!" << std::endl;
-                continue;
-            } else if (pid == 0) {
-                // Child process
-                execvp(resolved_args[0], resolved_args.data());
-                std::cerr << "Command not found: " << resolved_args[0] << std::endl;
-                exit(EXIT_FAILURE);
-            } else {
-                // Parent process
-                int status;
-                waitpid(pid, &status, 0);
-            }
+            executeCommand(resolved_args);
          }
+
+        for (char* ptr : resolved_args) {
+            delete[] ptr;
+        }
+        resolved_args.clear();
+        
     }
     return 0;
 }

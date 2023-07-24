@@ -31,36 +31,11 @@ int main(){
         std::cout  << GREEN << "|>>"  << END;
 
         std::getline(std::cin, cmd);
-        std::vector<char*> args;
         cmd = stripWhitespace(cmd);
-        char* token = strtok(const_cast<char*>(cmd.c_str()), " ");
-        while (token != nullptr) {
-            args.push_back(token);
-            token = strtok(nullptr, " ");
-        }
-        args.push_back(nullptr);
-        cmd = std::string(args[0]);
+        std::vector<std::string> args = splitByDelim(cmd," ");
+        std::vector<char*> resolved_args= resolveArgs(args);
+        cmd = std::string(resolved_args[0]);
 
-        std::vector<char*> resolved_args;
-
-        for(size_t i = 0 ; i < args.size(); i++){
-            if (args[i] == nullptr) {
-                continue;
-            }
-            if(args[i][0] == '$'){
-                char * env_var = getenv(args[i] +1);
-                if(env_var){
-                    resolved_args.push_back(env_var);
-                }
-                else{
-                    resolved_args.push_back(args[i]);
-                }
-            }
-            else{
-                resolved_args.push_back(args[i]);
-            }
-        }
-        
         // diffirent from invalid command case so we explicitly continue
         if(cmd == ""){
             continue;

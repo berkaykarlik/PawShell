@@ -33,37 +33,39 @@ std::vector<std::string> splitByDelim(const std::string s, const char* delim) {
     return tokens;
 }
 
-std::vector<char*> resolveArgs(const std::vector<std::string>& args) {
-    std::vector<char*> resolved_args;
-    resolved_args.reserve(args.size() + 1); // +1 for the final nullptr
+std::vector<std::string> resolveArgs(const std::vector<std::string>& args) {
+    std::vector<std::string> resolved_args;
 
     for (const auto& arg : args) {
         if (arg[0] == '$') {
             char* env_var = getenv(arg.substr(1).c_str());
             if (env_var) {
-                resolved_args.push_back(strdup(env_var));
+                resolved_args.push_back(std::string(env_var));
             } else {
-                resolved_args.push_back(strdup(""));
+                resolved_args.push_back(std::string(""));
             }
         } else {
-            resolved_args.push_back(strdup(arg.c_str()));
+            resolved_args.push_back(arg);
         }
     }
-
-    // Add the final nullptr as the last element
-    resolved_args.push_back(nullptr);
-
     return resolved_args;
 }
 
-void executeCommand(const std::vector<char*>& args){
+void executeCommand(const std::vector<std::string>& args){
     pid_t pid = fork();
     if (pid == -1) {
         std::cerr << "Fork failed!" << std::endl;
         return;
     } else if (pid == 0) {
+        //execvp requires c-string
+        std::vector<char*> c_args;
+        for (const auto& arg : args) {
+            c_args.push_back(const_cast<char*>(arg.c_str()));
+        }
+        // c_args.push_back(nullptr);
+
         // Child process
-        execvp(args[0], args.data());
+        execvp(c_args[0], c_args.data());
         std::cerr << "Command not found: " << args[0] << std::endl;
         exit(EXIT_FAILURE);
     } else {

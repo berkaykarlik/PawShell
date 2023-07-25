@@ -29,7 +29,7 @@ int main(){
         std::getline(std::cin, cmd);
         cmd = stripWhitespace(cmd);
         std::vector<std::string> args = splitByDelim(cmd," ");
-        std::vector<char*> resolved_args= resolveArgs(args);
+        std::vector<std::string> resolved_args= resolveArgs(args);
         cmd = std::string(resolved_args[0]);
 
         // diffirent from invalid command case so we explicitly continue
@@ -45,7 +45,7 @@ int main(){
                 std::cerr << "Couldn't get pwd" << std::endl;
         }
         else if(cmd == "cd"){
-            if(chdir(resolved_args[1]) != 0)
+            if(chdir(resolved_args[1].c_str()) != 0)
                 std::cerr << "chdir failed" << std::endl;
             getcwd(pwd, sizeof(pwd));
         }
@@ -67,17 +67,12 @@ int main(){
             setenv(key.c_str(),val.c_str(),true);
         }
         else if(cmd == "unset"){
-            unsetenv(resolved_args[1]);
+            unsetenv(resolved_args[1].c_str());
         }
         else{
             executeCommand(resolved_args);
          }
 
-        for (char* ptr : resolved_args) {
-            delete[] ptr;
-        }
-        resolved_args.clear();
-        
     }
     return 0;
 }
